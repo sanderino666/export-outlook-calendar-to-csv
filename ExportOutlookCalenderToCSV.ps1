@@ -26,6 +26,7 @@ $header | Out-File $exportCsvLocation -Append -Encoding utf8
 
 ForEach($item in $items){
     $weekNumber = Get-WeekNumber -DateTime $item.Start
+    $duration = If ($item.Duration -eq 1440) {8} Else {($item.Duration / 60)}
     $row = '"' + $item.Subject + '";"' + $item.Categories + '";"' + $item.Start + '";"' + $item.End + '";"' + ($item.Duration / 60).ToString("#.##") + '";"' + $weekNumber + '"'
     $row | Out-File $exportCsvLocation -Append -Encoding utf8
 }
