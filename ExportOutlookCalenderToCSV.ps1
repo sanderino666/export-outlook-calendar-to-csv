@@ -2,7 +2,8 @@ Param(
     $startDate = "01-01-2019",
     $endDate = "31-12-2019",
     $exportCsvLocation = "export_calendar.csv",
-    $excelLocation = "registratie.xlsx"
+    $excelLocation = "registratie.xlsx",
+	$format = "#.##"
 )
 
 function Get-WeekNumber([datetime]$DateTime = (Get-Date)) {
@@ -32,7 +33,7 @@ $header | Out-File $exportCsvLocation -Append -Encoding utf8
 ForEach($item in $items) {
     $weekNumber = Get-WeekNumber -DateTime $item.Start
     $duration = If ($item.Duration -eq 1440) {8} Else {($item.Duration / 60)}
-    $row = '"' + $item.Subject + '";"' + $item.Categories + '";"' + $item.Start + '";"' + $item.End + '";"' + $duration.ToString("#.##") + '";"' + $weekNumber + '"'
+    $row = '"' + $item.Subject + '";"' + $item.Categories + '";"' + $item.Start + '";"' + $item.End + '";"' + $duration.ToString($format) + '";"' + $weekNumber + '"'
     $row | Out-File $exportCsvLocation -Append -Encoding utf8
 }
 
